@@ -1,0 +1,70 @@
+<div class=" m-5" dir="rtl">
+    <div class="container bg-white">
+        <div>
+            <div *ngFor="let question of exam.questions; let questions = index" class="mb-5 border border-1 p-2">
+                <div>
+                    <div class="grid grid-cols-12 bg-[#e5ccf0] ">
+                        <div class="col-span-10 mx-2 p-1 ">
+                            {{question.title}}
+                        </div>
+                        <div class="col-span-2 mx-2 p-1 "> الدرجة {{question.degree}} </div>
+                        <!-- <div class="col-span-6 mx-2 p-1 bg-[#e5ccf0]">المدة{{question.duration}} </div> -->
+
+                    </div>
+                    <div class="w-full "></div>
+
+                    <div class="grid grid-cols-12  ">
+                        <div *ngFor="let answer of question?.answers" class="lg:col-span-6 col-span-12">
+                            <div>
+
+                                <div class="grid grid-cols-12 border border-1 rounded m-2"
+                                    [ngClass]="answer.is_correct? 'bg-green-100':''">
+
+                                    <svg *ngIf="answer.is_correct" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="w-6 h-6 mt-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    <div class="p-2 col-span-10" [innerHTML]="answer.title">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let question of exam.questions; let questions = index" class="mb-5 border border-1 p-2">
+                <div>
+                    <div class="grid grid-cols-12 bg-[#e5ccf0] ">
+                        <div class="col-span-10 mx-2 p-1 ">
+                            {{question.title}}
+                        </div>
+                        <div class="col-span-2 mx-2 p-1 "> الدرجة {{question.degree}} </div>
+                        <!-- <div class="col-span-6 mx-2 p-1 bg-[#e5ccf0]">المدة{{question.duration}} </div> -->
+
+                    </div>
+                    <div class="w-full "></div>
+
+                    <div class="grid grid-cols-12  ">
+                        <div *ngFor="let answer of question?.answers" class="lg:col-span-6 col-span-12">
+                            <div>
+
+                                <div class="grid grid-cols-12 border border-1 rounded m-2"
+                                    [ngClass]="answer.is_correct? 'bg-green-100':''">
+
+                                    <svg *ngIf="answer.is_correct" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="w-6 h-6 mt-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    <div class="p-2 col-span-10" [innerHTML]="answer.title">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

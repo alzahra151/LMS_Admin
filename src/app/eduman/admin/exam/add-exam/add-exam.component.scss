@@ -1,0 +1,48 @@
+ .mat-step-header .mat-step-icon-state-done {
+  background-color: green; 
+}
+
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+  background-color: green; 
+}
+.descriptionInp {
+    margin-bottom: 30px;
+    display: flex;
+    height: 55px;
+    width: 100%;
+    border-radius: 0.25rem;
+    border-width: 0px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(245 245 245 / var(--tw-bg-opacity));
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    font-size: 16px;
+    --tw-text-opacity: 1;
+    color: rgb(87 87 87 / var(--tw-text-opacity));
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+::ng-deep .mat-datepicker-content {
+  max-width: 300px; /* Adjust the width as needed */
+}
+::ng-deep .mat-accent{
+    color: #a769cf;
+}
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background{
+    background-color: #a769cf !important;
+    border-color: #a769cf !important;
+}
+@media (max-width: 768px) {
+    /* Adjust the max-width value based on your design */
+    .signup-form-wrapper {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+.answerBtn{
+    background-color: #a769cf;
+}

@@ -1,0 +1,143 @@
+<div class=" m-5" dir="rtl">
+    <mat-stepper class="example-stepper" [orientation]="(stepperOrientation | async)!">
+        <mat-step [stepControl]="addExamGroup" label="اضافة بيانات الامتحان">
+            <form [formGroup]="addExamGroup">
+                <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+                    <div class="col-span-12 ">
+                        <div class="signup-form-wrapper">
+                            <div class="signup-input-wrapper">
+                                <input formControlName="title" type="text" placeholder=" العنوان باللغة العربية">
+                                <input formControlName="alt_title" type="text"
+                                    placeholder=" العنوان باللغة الانجليزية (اختياري)  ">
+                            </div>
+                            <div class="grid grid-cols-12" color="green">
+                                <mat-form-field class="lg:col-span-6 col-span-12 lg:m-1.5">
+                                    <mat-label>تاريخ البداية </mat-label>
+                                    <input formControlName="start_date" matInput [matDatepicker]="picker1">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="lg:col-span-6 col-span-12 lg:m-1.5">
+                                    <mat-label>تاريخ النهاية</mat-label>
+                                    <input formControlName="end_date" matInput [matDatepicker]="picker2">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <mat-form-field class="lg:col-span-6 col-span-12 lg:m-1.5">
+                                    <mat-label>اختر الصف الدراسي</mat-label>
+                                    <mat-select name="course" formControlName="class_id">
+                                        <mat-option *ngFor="let class of classes"
+                                            [value]="class.id">{{class.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <input class="descriptionInp lg:col-span-6 col-span-12 lg:m-1.5"
+                                    formControlName="duration" type="text" placeholder="الفترة الزمنية ">
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <mat-form-field class="lg:col-span-6 col-span-12 lg:m-1.5">
+                                    <mat-label>اختر الدورة</mat-label>
+                                    <mat-select name="course" formControlName="course_id">
+                                        <mat-option *ngFor="let course of courses"
+                                            [value]="course.id">{{course.title}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <!-- <mat-form-field class="lg:col-span-6 col-span-12 lg:m-1.5">
+                                    <mat-label>اختر الدروس (اختياري)</mat-label>
+                                    <mat-select name="course" formArrayName="lesson_ids" multiple>
+                                        <mat-option *ngFor="let lesson of lessonsArray?.controls"
+                                            formControlName="lesson">{{lesson.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{addExamGroup.value | json}}
+                <div>
+                    <button mat-button matStepperNext>التالي</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="addQuestionsGroup" label="اضافة الأسئلة ">
+            <div class="container">
+                <form [formGroup]="addQuestionsGroup">
+                    <!-- Form controls for other properties -->
+                    <div formArrayName="questions">
+                        <div *ngFor="let question of questionsArray.controls; let questions = index"
+                            class="mb-5 border border-1 p-2">
+                            <div [formGroupName]="questions">
+                                <div class="grid grid-cols-12">
+                                    <mat-form-field class=" col-span-12">
+                                        <mat-label>السؤال</mat-label>
+                                        <textarea class=" " rows="1" formControlName="title" placeholder=""
+                                            matInput></textarea>
+                                    </mat-form-field>
+                                    <mat-form-field class=" col-span-6 mx-2">
+                                        <mat-label>الدرجة</mat-label>
+                                        <input class="" formControlName="degree" placeholder="" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field class=" col-span-6">
+                                        <mat-label>duration</mat-label>
+                                        <input class=" " formControlName="duration" placeholder="" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <quill-editor #editor (onEditorCreated)="activateRTL($event)"
+                                    (onContentChanged)="getEditorAnswerValue($event)" name="html" placeholder="">
+                                </quill-editor>
+                                <button class="answerBtn p-1 rounded-sm text-white" (click)="addAnswer(questions)">اضافة
+                                    الاجابة</button>
+                                <div formArrayName="answers" class="grid grid-cols-12  ">
+                                    <div *ngFor="let answer of getAnswersArray(questions).controls; let answers = index"
+                                        class="lg:col-span-6 col-span-12">
+                                        <div [formGroupName]="answers">
+                                            <input formControlName="title" placeholder="Answer Title" hidden>
+                                            <div class="grid grid-cols-12 border border-1 rounded m-2">
+                                                <mat-checkbox formControlName="is_correct" class="col-span-1">
+                                                </mat-checkbox>
+                                                <div class="p-2 col-span-10" [innerHTML]="answer.get('title')?.value">
+
+                                                </div>
+                                                <button mat-icon-button class="close-button col-span-1"
+                                                    (click)="removeAnswer(questions, answers)">
+                                                    <mat-icon class="close-icon" color="warn">close</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid justify-items-end ">
+                        <button class="answerBtn p-1 rounded-sm text-white " (click)="addQuestion()">اضافة
+                            سؤال</button>
+                    </div>
+                </form>
+            </div>
+            {{addQuestionsGroup.value | json}}
+            <div>
+                <button mat-button matStepperPrevious>رجوع</button>
+                <button mat-button matStepperNext>التالي</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+
+            <ng-template matStepLabel>تم</ng-template>
+            <p>الان لقد تم </p>
+
+            <!-- <button (click)="addExam()">اضافة الامتحا</button> -->
+
+            {{exam | json}}
+            <div>
+                <button mat-button matStepperPrevious>رجوع</button>
+            </div>
+
+        </mat-step>
+    </mat-stepper>
+</div>

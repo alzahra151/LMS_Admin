@@ -1,0 +1,122 @@
+<div class="pt-8 p-3 signup-page-area" dir="rtl">
+    <div class="signup-page-area-wrapper">
+        <div class="container">
+            <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+                <div class="lg:col-span-1"></div>
+                <div class="col-span-12 lg:col-span-10">
+                    <form [formGroup]="courseForm">
+                        <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+                            <div class="col-span-12 ">
+                                <div class="signup-form-wrapper">
+                                    <div class="signup-input-wrapper">
+                                        <input formControlName="title" type="text"
+                                            [class.error]="titleControl?.valid || titleControl?.untouched?'':titleControl?.errors?.['required']"
+                                            placeholder=" العنوان باللغة العربية">
+
+                                        <input formControlName="alt_title" type="text"
+                                            placeholder=" العنوان باللغة الانجليزية (اختياري)  ">
+                                    </div>
+                                    <mat-error
+                                        *ngIf="titleControl?.valid || titleControl?.untouched?'':titleControl?.errors?.['required']"
+                                        class="mb-2">عنوان الدورة مطلوب</mat-error>
+                                    <div class="signup-input-wrapper">
+                                        <!-- <input type="text" placeholder="الايميل "> -->
+                                        <textarea class="descriptionInp" name="description" id="description" cols="30"
+                                            rows="10" formControlName="description"
+                                            [class.error]="descriptionControl?.valid || descriptionControl?.untouched?'':descriptionControl?.errors?.['required']"
+                                            placeholder="   وصف الدورة باللغة العربية"></textarea>
+
+                                        <textarea formControlName="alt_description" class="descriptionInp"
+                                            name="alt_description" id="description" cols="30" rows="10"
+                                            placeholder="  وصف الدورة باللغة الانجليزية (اختياري)"></textarea>
+                                    </div>
+                                    <mat-error
+                                        *ngIf="descriptionControl?.valid || descriptionControl?.untouched?'':descriptionControl?.errors?.['required']"
+                                        class="mb-2">
+                                        وصف الدورة مطلوب
+                                    </mat-error>
+                                    <div class="grid grid-cols-12" color="green">
+                                        <mat-form-field class="lg:col-span-6 col-span-12 m-1.5">
+                                            <mat-label>تاريخ البداية </mat-label>
+                                            <input matInput formControlName="start_date" [matDatepicker]="picker1">
+                                            <mat-hint>MM/DD/YYYY</mat-hint>
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+
+                                        <mat-form-field class="lg:col-span-6 col-span-12 m-1.5 ">
+                                            <mat-label>تاريخ النهاية</mat-label>
+                                            <input matInput formControlName="end_date" [matDatepicker]="picker2">
+                                            <mat-hint>MM/DD/YYYY</mat-hint>
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- {{startDateControl?.value }} -->
+                                    <div *ngIf="!isFreeControl?.value" class="signup-wrapper grid grid-cols-12">
+                                        <input type="number" formControlName="price"
+                                            class="lg:col-span-4 col-span-12 p-3" placeholder=" سعر الكورس">
+
+                                        <mat-form-field class="lg:col-span-4 col-span-6 mx-1.5 p-0">
+                                            <mat-label>اختر نوع التخفيض</mat-label>
+                                            <mat-select name="course" formControlName="discount_type">
+                                                <mat-option *ngFor="let type of discountTypes"
+                                                    [value]="type">{{type}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <div class="lg:col-span-4 col-span-6 ">
+                                            <div class="" class="">
+
+                                                <input type="number" placeholder=" التخفيض (اختياري)" id="discountValue"
+                                                    formControlName="discount">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>poster</mat-label>
+                                        <div class="fileUploadContainer"
+                                            [ngStyle]="{'margin-top' : courseForm.get('poster')!.value ? '5px' :  '20px'}">
+                                            <ng-container *ngIf="courseForm.get('poster')!.value">
+                                                <img [src]="posterSrc" />
+                                                <button class="deleteButton" mat-icon-button
+                                                    (click)="fileInput.value = ''; courseForm.get('poster')?.setValue(null);">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </ng-container>
+                                            <!-- no image -->
+                                            <div *ngIf="!courseForm.get('poster')!.value" fxLayout="column"
+                                                fxLayoutAlign="center center" fxLayoutGap="10px">
+                                                <mat-icon style="opacity: 60%;">file_upload</mat-icon>
+                                                <button mat-raised-button color="primary"
+                                                    style="width:100%; opacity: 80%;">Browser</button>
+                                                <small style="margin: 20px">Drag and drop here</small>
+                                            </div>
+                                            <!-- put on top of the fileUploadContainer with opacity 0 -->
+                                            <input #fileInput class="fileInput" type="file" multiple="multiple"
+                                                accept="image/*" (change)="setFileData($event)" />
+                                        </div>
+                                        <input matInput formControlName="poster" readonly [hidden]="true " />
+                                    </mat-form-field>
+                                    <section class="example-section">
+                                        <mat-checkbox formControlName="is_free" class="example-margin isFree"
+                                            color="">الكورس مجاني
+                                        </mat-checkbox>
+                                        <!-- <mat-checkbox class="example-margin" [disabled]="true">Disabled</mat-checkbox> -->
+                                    </section>
+                                    <!-- {{courseForm.value | json}} -->
+                                    <div class="sing-buttom mb-5">
+                                        <button (click)="addCourse()" class="sing-btn">اضافة
+                                            الدورة</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

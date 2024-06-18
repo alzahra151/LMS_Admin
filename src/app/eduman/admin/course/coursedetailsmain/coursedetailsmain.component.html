@@ -1,0 +1,71 @@
+<div class="container mt-5" dir="rtl">
+    <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+        <div class="col-span-12 xl:col-span-8">
+            <div class="course-detalis-wrapper mb-[30px]">
+                <div class="course-heading mb-[20px]">
+                    <h2>{{course.title}}</h2>
+                    <div class="course-star">
+                        <div *ngIf="course.rating">
+                            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                                <mat-icon>{{ star <= course.rating ? 'star' : 'star_border' }}</mat-icon>
+                            </ng-container>
+                        </div>
+                        <span>({{course.rates?.length}})</span>
+                    </div>
+                </div>
+                <div class="course-detelis-meta">
+                    <div class="course-meta-wrapper border-line-meta">
+                        <div class="course-meta-img">
+                            <a [routerLink]="['/instructor-profile']"><img src="assets/img/course/course-meta.png"
+                                    alt="course-meta"></a>
+                        </div>
+                        <div class="course-meta-text">
+                            <span>صنع بواسطة</span>
+                            <h6><a [routerLink]="['/instructor-profile']">{{course.teacher?.first_name}}
+                                    {{course.teacher?.last_name}}</a></h6>
+                        </div>
+                    </div>
+                    <div class="course-Enroll border-line-meta">
+                        <p>الطلاب المسجلين</p>
+                        <span>5,420</span>
+                    </div>
+                    <div class="course-update border-line-meta">
+
+                        <a [routerLink]="['exam']">
+                            <p>الامتحانات </p>
+                        </a>
+                        <!-- <span>01 January 2023 </span> -->
+                    </div>
+                    <div class="course-category">
+                        <p>01 January 2023 </p>
+                        <span><a [routerLink]="['/course']">Data Science</a></span>
+                    </div>
+                </div>
+                <div class="course-description pt-[45px] pb-[30px]">
+                    <div class="course-Description">
+                        <h4>الوصف</h4>
+                    </div>
+                    <p>{{course.description}}</p>
+                </div>
+
+                <div class="course-curriculum pt-10 pb-[50px]">
+                    <div class="course-curriculam">
+                        <h4>المقرر</h4>
+                    </div>
+                    <ul>
+                        <li> {{course.lessons?.length}} درس </li>
+                    </ul>
+                    <app-coursecurriculam [lessons]="course.lessons"></app-coursecurriculam>
+                </div>
+                <app-courseinstructor></app-courseinstructor>
+                <app-studentfeedback></app-studentfeedback>
+                <app-coursereview></app-coursereview>
+
+            </div>
+        </div>
+        <div class="col-span-12 xl:col-span-4 md:col-span-8">
+            <app-coursevideo></app-coursevideo>
+        </div>
+    </div>
+</div>
+<!-- </section> -->

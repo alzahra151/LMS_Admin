@@ -1,0 +1,41 @@
+.mat-table { 
+    width: 100%; 
+  
+    .mat-header-cell { 
+        color: rgb(33, 43, 53); 
+        font-weight: 700; 
+        font-size: 1em; 
+        padding: 8px; 
+        background-color: #EEEEEE; 
+  
+        &:first-of-type { 
+            padding: 8px 24px; 
+        } 
+    } 
+  
+    .mat-column-flex-2 { 
+        flex: 2; 
+    } 
+  
+    .mat-cell { 
+        padding: 8px; 
+        line-height: 1.5em; 
+  
+        &:first-of-type { 
+            padding: 8px 24px; 
+        } 
+    } 
+}
+.mat-mdc-table{
+    
+}
+.mat-header-cell {
+
+}
+.mdc-data-table__header-cell{
+  background-color: #a769cf !important;
+  color: white;
+}
+.mat-row:hover {
+  background-color: #e0e0e0;
+}
