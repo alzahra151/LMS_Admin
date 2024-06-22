@@ -27,6 +27,7 @@
     "@nguniversal/express-engine": "^16.2.0",
     "@popperjs/core": "^2.11.8",
     "angularx-flatpickr": "^6.6.0",
+    "axios": "^1.7.2",
     "ckeditor": "^4.12.1",
     "core-js": "^3.37.0",
     "crypto-browserify": "^3.12.0",

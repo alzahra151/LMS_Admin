@@ -84,40 +84,17 @@ export class AddLessonComponent {
 
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      this.uploadVideo(this.selectedFile);
+    }
   }
   onUpload() {
-    const lessonData = new FormData();
-    console.log(this.selectedFile)
-    lessonData.append('video_url', this.selectedFile);
-    lessonData.append('title', this.titleControl?.value);
-    lessonData.append('alt_title', this.altTitleControl?.value);
-    lessonData.append('description', this.descriptionControl?.value);
-    lessonData.append('alt_description', this.altDescriptionControl?.value);
-    lessonData.append('is_free', this.isFreeControl?.value);
-    lessonData.append('course_id', this.courseIdControl?.value);
-    lessonData.append('duration', this.durationControl?.value);
 
-    lessonData.forEach((value, key) => {
-      console.log(key, value);
-    });
-    // Make POST request to upload endpoint
-    this.lessonService.addLeasson(lessonData).subscribe({
+    this.lessonService.addLeasson(this.lessonForm.value).subscribe({
       next: (response) => {
 
         console.log('Upload successful. Vimeo URL:', response);
-        // Open SSE connection to get progress updates
-        const eventSource = new EventSource('/api/admin/lessons/events');
-        this.showProgress = true
-        eventSource.onmessage = (event) => {
-          this.ngZone.run(() => { // Run this within Angular's zone
-            this.uploadProgress = parseInt(event.data, 10);
-            console.log("test", this.uploadProgress);
-            if (this.uploadProgress == 100) {
-              this.showProgress = false
-              this.showSuccess("تمت الاضافة بنجاج")
-            }
-          });
-        }
+
 
       }, error: (error) => {
         console.log(error.error.message)
@@ -134,6 +111,27 @@ export class AddLessonComponent {
   }
   showSuccess(message: string, duration: number = 3000) {
     const config = this.getSnackBarConfig('success-snackbar', duration);
-    this.snackBar.open(message, 'Close', config);
+    this.snackBar.open(message, 'اغلاق', config);
+  }
+  showError(message: string, duration: number = 3000) {
+    const config = this.getSnackBarConfig('error-snackbar', duration);
+    this.snackBar.open(message, 'اغلاق', config);
+  }
+  async uploadVideo(file: File): Promise<void> {
+    try {
+      const videoUri = await this.videoUploadService.uploadVideo(file,
+        (progress) => {
+          this.uploadProgress = progress;
+        }
+      ).then((url) => {
+        this.showSuccess('تم التحميل بنجاح ')
+        console.log('Video uploaded to:', url);
+        this.video_urlControl?.patchValue(url)
+      })
+
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      this.showError('فشل التحميل ')
+    }
   }
 }

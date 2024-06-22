@@ -9,7 +9,7 @@
                             <div class="col-span-12 ">
                                 <div class="signup-form-wrapper">
                                     <div class="signup-input-wrapper">
-                                        <input formControlName="title" type="text"
+                                        <input required formControlName="title" type="text"
                                             [class.error]="titleControl?.valid || titleControl?.untouched?'':titleControl?.errors?.['required']"
                                             placeholder=" العنوان باللغة العربية">
 
@@ -21,7 +21,7 @@
                                         class="mb-2">عنوان الدورة مطلوب</mat-error>
                                     <div class="signup-input-wrapper">
                                         <!-- <input type="text" placeholder="الايميل "> -->
-                                        <textarea class="descriptionInp w-full bg-[#F5F5F5]" name="description"
+                                        <textarea required class="descriptionInp w-full bg-[#F5F5F5]" name="description"
                                             id="description" rows="2" formControlName="description"
                                             [class.error]="descriptionControl?.valid || descriptionControl?.untouched?'':descriptionControl?.errors?.['required']"
                                             placeholder="   وصف الدورة باللغة العربية"></textarea>
@@ -39,7 +39,7 @@
                                     <div class="grid grid-cols-12" color="green">
                                         <mat-form-field class="lg:col-span-6 col-span-12 m-1.5">
                                             <mat-label>تاريخ البداية </mat-label>
-                                            <input matInput [matDatepicker]="picker1">
+                                            <input required matInput [matDatepicker]="picker1">
                                             <mat-hint>MM/DD/YYYY</mat-hint>
                                             <mat-datepicker-toggle matIconSuffix
                                                 [for]="picker1"></mat-datepicker-toggle>
@@ -48,7 +48,7 @@
 
                                         <mat-form-field class="lg:col-span-6 col-span-12 m-1.5 ">
                                             <mat-label>تاريخ النهاية</mat-label>
-                                            <input matInput [matDatepicker]="picker2">
+                                            <input required matInput [matDatepicker]="picker2">
                                             <mat-hint>MM/DD/YYYY</mat-hint>
                                             <mat-datepicker-toggle matIconSuffix
                                                 [for]="picker2"></mat-datepicker-toggle>
@@ -57,13 +57,13 @@
                                     </div>
                                     <div class="grid grid-cols-12 signup-input-wrapper">
                                         <mat-form-field class="w-full lg:col-span-6 col-span-12 lg:m-1.5">
-                                            <mat-label>اختر الصف الدراسي</mat-label>
-                                            <mat-select name="course" formControlName="course_id">
+                                            <mat-label>اخترالكورس</mat-label>
+                                            <mat-select required name="course" formControlName="course_id">
                                                 <mat-option *ngFor="let course of courses"
                                                     [value]="course.id">{{course.title}}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <input class="w-full bg-[#F5F5F5] lg:col-span-6 col-span-12 lg:m-1"
+                                        <input required class="w-full bg-[#F5F5F5] lg:col-span-6 col-span-12 lg:m-1"
                                             formControlName="duration" type="text" placeholder="الفترة الزمنية ">
                                     </div>
                                     <section class="example-section">
@@ -72,18 +72,32 @@
                                         </mat-checkbox>
                                         <!-- <mat-checkbox class="example-margin" [disabled]="true">Disabled</mat-checkbox> -->
                                     </section>
-                                    <div class="p-2 border mb-2">
-                                        <label>اختر الفيديو </label>
-                                        <input type="file" placeholder="upload" (change)="onFileSelected($event)">
+                                    <div class="p-1 border mb-1 flex items-center">
+                                        <label class="w-2/12">اختر الفيديو </label>
+                                        <input class="w-10/12 bg-[#F5F5F5] lg:col-span-6 col-span-12 lg:m-1 p-2"
+                                            type="file" placeholder="upload" (change)="onFileSelected($event)">
                                     </div>
-                                    <div *ngIf="showProgress" class="p-2">
+                                    <div class="flex items-center justify-center  w-full">
+                                        <div class="rounded-full border boreder-1 text-center"
+                                            style="width: 30px;height: 30px;">أو
+                                        </div>
+                                    </div>
+                                    <div class="p-1 border mt-1 flex items-center">
+                                        <label class="w-2/12"> ادخل رابط الفيديو </label>
+                                        <input required
+                                            class="w-10/12 bg-[#F5F5F5] lg:col-span-6 col-span-12 lg:m-1 p-2"
+                                            type="text" placeholder="upload" formControlName="video_url">
+                                    </div>
+                                    <div *ngIf="uploadProgress > 0" class="p-2 my-2">
                                         <mat-progress-bar mode="determinate" [value]="uploadProgress">
                                         </mat-progress-bar>
                                     </div>
                                     <!-- {{lessonForm?.value | json}} -->
-                                    <div class="sing-buttom mb-5">
-                                        <button class="sing-btn" (click)="onUpload()">اضافة
+                                    <div class="sing-buttom mb-5" [ngClass]="{ 'invalid-btn': !lessonForm.valid}">
+                                        <button [disabled]="!lessonForm.valid" class="sing-btn"
+                                            [ngClass]="{ 'invalid-btn': !lessonForm.valid}" (click)="onUpload()">اضافة
                                             الدورة</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -92,6 +106,6 @@
                 </div>
             </div>
         </div>
-        {{lessonForm.value | json}}
+        {{lessonForm.value | json}}{{video_urlControl?.valid | json}}
     </div>
 </div>

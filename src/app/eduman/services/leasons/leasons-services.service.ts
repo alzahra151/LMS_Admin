@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Lesson } from '../../models/lesson';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class LeasonsServicesService {
   getLeassonById(id: any) {
     return this.http.get("test")
   }
-  addLeasson(payload: any) {
+  addLeasson(payload: Lesson) {
     return this.http.post(`${environment.basUrl}/admin/lessons/add`, payload)
   }
   upadateLeasson(payload: any) {
