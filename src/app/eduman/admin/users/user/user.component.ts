@@ -1,28 +1,29 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { Classe } from 'src/app/eduman/models/classe';
+import { UserTypes } from 'src/app/eduman/models/user-types';
 import { ClassesService } from 'src/app/eduman/services/classes/classes.service';
 import { StudentsService } from 'src/app/eduman/services/students/students.service';
 import { UserService } from 'src/app/eduman/services/user/user.service';
+import { EnumUtils } from 'src/app/eduman/utilities/user-types.utils';
 
 @Component({
-  selector: 'app-addstudent',
-  templateUrl: './addstudent.component.html',
-  styleUrls: ['./addstudent.component.scss']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
-export class AddstudentComponent {
+export class UserComponent {
   userForm: FormGroup;
   photoSrc = ''
   classes: Classe[] = []
+  userTypes: { key: string, value: string }[];
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private classService: ClassesService,
     private studentService: StudentsService,
     private snackBar: MatSnackBar,
-    private route: Router
 
   ) {
     this.userForm = this.fb.group({
@@ -30,12 +31,13 @@ export class AddstudentComponent {
       last_name: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      user_type: ['student'], // Assuming 'user_type' is a dropdown/select field
+      user_type: ['', Validators.required], // Assuming 'user_type' is a dropdown/select field
       photo: [''], // Assuming 'photo' is a text field
       mobile: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]], // Assuming 'mobile' is a numeric field
       role_id: [null, Validators.required],
-      class_id: [null, Validators.required],
+      // class_id: [null, Validators.required],
     });
+    this.userTypes = EnumUtils.getEnumValues(UserTypes);
   }
   // Getter for all form controls
   get formControls(): { [key: string]: AbstractControl } {
@@ -75,9 +77,7 @@ export class AddstudentComponent {
     return this.userForm.get('role_id');
   }
 
-  get classIdControl() {
-    return this.userForm.get('class_id');
-  }
+
   ngOnInit() {
     this.getClasses()
   }
@@ -94,7 +94,6 @@ export class AddstudentComponent {
       next: (data) => {
         console.log('add sussfuly')
         this.showSuccess('تمت الاضافة بنجاح')
-        // this.route.navigate(['admin/students'])
         this.userForm.reset()
       },
       error: (error) => {
@@ -137,4 +136,5 @@ export class AddstudentComponent {
     const config = this.getSnackBarConfig('success-snackbar', duration);
     this.snackBar.open(message, 'Close', config);
   }
+
 }

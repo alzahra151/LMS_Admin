@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Validators } from 'ngx-editor';
@@ -6,6 +6,7 @@ import { Course } from 'src/app/eduman/models/course';
 import { CoursesServiceService } from 'src/app/eduman/services/courses/courses-service.service';
 import { LeasonsServicesService } from 'src/app/eduman/services/leasons/leasons-services.service';
 import { UploadVideoService } from 'src/app/eduman/services/upload-video/upload-video.service';
+import { formatError, logError } from '../../../utilities/error-util';
 
 @Component({
   selector: 'app-add-lesson',
@@ -13,6 +14,7 @@ import { UploadVideoService } from 'src/app/eduman/services/upload-video/upload-
   styleUrls: ['./add-lesson.component.scss']
 })
 export class AddLessonComponent {
+  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement> | undefined;
   lessonForm: FormGroup;
   courses: Course[] = []
   selectedFile: any
@@ -88,40 +90,50 @@ export class AddLessonComponent {
       this.uploadVideo(this.selectedFile);
     }
   }
+  clearFile() {
+    this.videoUploadService.clearFileUpload()
+    this.video_urlControl?.reset()
+    this.uploadProgress = 0;
+    this.showProgress = false
+    // Clear the file input
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
   onUpload() {
-
     this.lessonService.addLeasson(this.lessonForm.value).subscribe({
       next: (response) => {
-
         console.log('Upload successful. Vimeo URL:', response);
-
-
+        this.showProgress = false
+        this.uploadProgress = 0
       }, error: (error) => {
         console.log(error.error.message)
       }
     });
   }
-  private getSnackBarConfig(panelClass: string, duration: number): MatSnackBarConfig {
+  private getSnackBarConfig(panelClass: string): MatSnackBarConfig {
     return {
-      duration: duration,
+      // duration: duration,
       panelClass: [panelClass],
       horizontalPosition: 'end',  // Adjust as needed: 'start' | 'center' | 'end' | 'left' | 'right'
       verticalPosition: 'top'        // Adjust as needed: 'top' | 'bottom'
     };
   }
   showSuccess(message: string, duration: number = 3000) {
-    const config = this.getSnackBarConfig('success-snackbar', duration);
+    const config = this.getSnackBarConfig('success-snackbar');
     this.snackBar.open(message, 'اغلاق', config);
   }
-  showError(message: string, duration: number = 3000) {
-    const config = this.getSnackBarConfig('error-snackbar', duration);
+  showError(message: string) {
+    const config = this.getSnackBarConfig('error-snackbar');
     this.snackBar.open(message, 'اغلاق', config);
   }
   async uploadVideo(file: File): Promise<void> {
     try {
+      this.uploadProgress = 0
       const videoUri = await this.videoUploadService.uploadVideo(file,
         (progress) => {
           this.uploadProgress = progress;
+          this.showProgress = true
         }
       ).then((url) => {
         this.showSuccess('تم التحميل بنجاح ')
@@ -131,7 +143,7 @@ export class AddLessonComponent {
 
     } catch (error) {
       console.error('Error uploading video:', error);
-      this.showError('فشل التحميل ')
+      this.showError(formatError(error))
     }
   }
 }

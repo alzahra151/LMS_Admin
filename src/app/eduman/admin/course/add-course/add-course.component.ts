@@ -39,11 +39,11 @@ export class AddCourseComponent {
       start_date: ['', Validators.required],
       end_date: [null],
       is_free: [false],
-      price: [null],
-      discount: [null],
-      discount_type: [null],
+      price: [],
+      discount: [],
+      discount_type: [],
       status: ['pending'],
-      total: [null],
+      total: [],
       poster: ['']
     });
 
@@ -137,8 +137,9 @@ export class AddCourseComponent {
     this.isFreeControl?.valueChanges.subscribe((isFree) => {
       // If "Is Free" is checked, set the price to null
       if (isFree) {
-        this.priceControl?.setValue(null);
-        this.discountControl?.setValue(null);
+        this.priceControl?.setValue(0);
+        this.discountControl?.setValue(0);
+        this.discountTypeControl?.setValue('fixed');
       }
     })
   }

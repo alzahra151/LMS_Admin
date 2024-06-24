@@ -177,6 +177,7 @@ import { GetExamsComponent } from './admin/exam/get-exams/get-exams.component';
 import { ExamDetailsComponent } from './admin/exam/exam-details/exam-details.component';
 import { ExamStudentsComponent } from './admin/exam/exam-students/exam-students.component';
 import { UnauthorizedComponent } from './admin/unauthorized/unauthorized.component';
+import { UserComponent } from './admin/users/user/user.component';
 // import { MatPanelTitle } from '@angular/material/expansion';
 
 
@@ -383,7 +384,8 @@ import { UnauthorizedComponent } from './admin/unauthorized/unauthorized.compone
     GetExamsComponent,
     ExamDetailsComponent,
     ExamStudentsComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    UserComponent
     // AdminHomeComponent,
     // SidebarComponent,
   ],

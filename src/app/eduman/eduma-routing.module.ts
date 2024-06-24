@@ -19,6 +19,7 @@ import { ExamDetailsComponent } from './admin/exam/exam-details/exam-details.com
 import { ExamStudentsComponent } from './admin/exam/exam-students/exam-students.component';
 import { UnauthorizedComponent } from './admin/unauthorized/unauthorized.component';
 import { roleGuard } from './guards/role.guard';
+import { UserComponent } from './admin/users/user/user.component';
 // import {util} from 'util'
 
 
@@ -52,6 +53,7 @@ const routes: Routes = [
       { path: 'add-lesson', component: AddLessonComponent },
       { path: 'corse-details/:id', component: CoursedetailsmainComponent },
       { path: 'unauthorized', component: UnauthorizedComponent },
+      { path: 'add-user', component: UserComponent, },
 
 
     ],

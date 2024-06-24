@@ -1,0 +1,93 @@
+<!-- <app-headerfour></app-headerfour> -->
+
+<!-- <app-breadcrumb breadcrumbTitle="Sign Up" breadcrumbSubTitle="Sign Up"></app-breadcrumb> -->
+
+<!-- signup-area-start -->
+<div class="pt-8 p-3 signup-page-area" dir="rtl">
+    <div class="signup-page-area-wrapper">
+        <div class="container">
+            <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+                <div class="lg:col-span-1"></div>
+                <div class="col-span-12 lg:col-span-10">
+                    <form [formGroup]="userForm">
+                        <div class="grid grid-cols-12 gap-x-[0px] sm:gap-x-[30px]">
+
+                            <div class="col-span-12 ">
+                                <div class="signup-form-wrapper">
+                                    <div class="signup-input-wrapper">
+                                        <input formControlName="first_name" type="text" placeholder="الاسم الاول">
+                                        <input formControlName="last_name" type="text" placeholder="الاسم الاخير">
+                                    </div>
+                                    <div class="signup-input-wrapper">
+                                        <input formControlName="email" type="text" placeholder="الايميل ">
+                                        <input formControlName="mobile" type="text" placeholder="رقم الهاتف ">
+                                    </div>
+
+                                    <!-- <div class="signup-input-wrapper">
+                                        <mat-form-field appearance="fill" class="w-full">
+                                            <mat-label>اختر الصف</mat-label>
+                                            <mat-select formControlName="class_id">
+                                                <mat-option *ngFor="let class of classes" [value]="class.id">
+                                                    {{class.name}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div> -->
+                                    <div class="signup-input-wrapper">
+                                        <mat-form-field appearance="fill" class="w-full">
+                                            <mat-label>اختر صلاحية المستخدم</mat-label>
+                                            <mat-select formControlName="user_type">
+                                                <mat-option *ngFor="let type of userTypes" [value]="type.key">
+                                                    {{type.value}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="signup-input-wrapper">
+                                        <input formControlName="password" type="password" placeholder="كلمة المرور">
+                                    </div>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Photo</mat-label>
+                                        <div class="fileUploadContainer"
+                                            [ngStyle]="{'margin-top' : userForm.get('photo')!.value ? '5px' :  '20px'}">
+                                            <ng-container *ngIf="userForm.get('photo')!.value">
+                                                <img [src]="photoSrc" />
+                                                <button class="deleteButton" mat-icon-button
+                                                    (click)="fileInput.value = ''; userForm.get('photo')?.setValue(null);">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </ng-container>
+                                            <!-- no image -->
+                                            <div *ngIf="!userForm.get('photo')!.value" fxLayout="column"
+                                                fxLayoutAlign="center center" fxLayoutGap="10px">
+                                                <mat-icon style="opacity: 60%;">file_upload</mat-icon>
+                                                <button mat-raised-button color="primary"
+                                                    style="width:100%; opacity: 80%;">Browser</button>
+                                                <small style="margin: 20px">Drag and drop here</small>
+                                            </div>
+                                            <!-- put on top of the fileUploadContainer with opacity 0 -->
+                                            <input #fileInput class="fileInput" type="file" multiple="multiple"
+                                                accept="image/*" (change)="setFileData($event)" />
+                                        </div>
+                                        <input matInput formControlName="photo" readonly [hidden]="true " />
+                                    </mat-form-field>
+
+                                    <div class="sing-buttom mb-5">
+                                        <button (click)="addUser()" type="submit" class="sing-btn">اضافة الطالب
+                                        </button>
+                                    </div>
+
+                                    <!-- {{userForm.value | json}} -->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- signup-area-start -->
+
+<!-- <app-footerone></app-footerone> -->
